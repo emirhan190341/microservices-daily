@@ -7,8 +7,6 @@ import com.emirhanarici.ProductService.payload.response.ProductResponse;
 import com.emirhanarici.ProductService.repository.ProductRepository;
 import com.emirhanarici.ProductService.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.beans.BeanUtils.copyProperties;

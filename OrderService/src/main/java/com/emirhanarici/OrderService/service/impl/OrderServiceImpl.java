@@ -1,6 +1,7 @@
 package com.emirhanarici.OrderService.service.impl;
 
 import com.emirhanarici.OrderService.entity.Order;
+import com.emirhanarici.OrderService.external.client.ProductService;
 import com.emirhanarici.OrderService.payload.request.OrderRequest;
 import com.emirhanarici.OrderService.repository.OrderRepository;
 import com.emirhanarici.OrderService.service.OrderService;
@@ -14,9 +15,11 @@ import java.time.Instant;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductService productService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService) {
         this.orderRepository = orderRepository;
+        this.productService = productService;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("OrderServiceImpl | placeOrder | Placing Order Request orderRequest : " + orderRequest.toString());
 
         log.info("OrderServiceImpl | placeOrder | Calling productService through FeignClient");
-//        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
+        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
 
         log.info("OrderServiceImpl | placeOrder | Creating Order with Status CREATED");
         Order order = Order.builder()
