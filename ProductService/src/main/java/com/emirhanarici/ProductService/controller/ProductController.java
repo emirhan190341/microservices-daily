@@ -22,6 +22,8 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Long> addProduct(@RequestBody ProductRequest request) {
 
+        log.info("ProductController | addProduct is called");
+
         long productId = productService.addProduct(request);
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
@@ -29,7 +31,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable("id") long productId) {
 
-
+        log.info("ProductController | getProductById is called");
 
         ProductResponse productResponse
                 = productService.getProductById(productId);
