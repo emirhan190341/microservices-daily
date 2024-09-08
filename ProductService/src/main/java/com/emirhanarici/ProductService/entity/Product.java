@@ -3,8 +3,6 @@ package com.emirhanarici.ProductService.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Getter
 @Setter
 @Builder
