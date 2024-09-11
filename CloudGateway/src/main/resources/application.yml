@@ -9,17 +9,31 @@ spring:
     import: configserver:http://localhost:9296
   cloud:
     gateway:
-      mvc:
         routes:
-          - id : ORDER-SERVICE
+          - id: ORDER-SERVICE
             uri: lb://ORDER-SERVICE
             predicates:
               - Path=/order/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: ORDER-SERVICE-CIRCUIT-BREAKER
+                  fallbackuri: forward:/orderServiceFallBack
           - id: PAYMENT-SERVICE
             uri: lb://PAYMENT-SERVICE
             predicates:
               - Path=/payment/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: PAYMENT-SERVICE-CIRCUIT-BREAKER
+                  fallbackuri: forward:/paymentServiceFallBack
           - id: PRODUCT-SERVICE
             uri: lb://PRODUCT-SERVICE
             predicates:
               - Path=/product/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: PRODUCT-SERVICE-CIRCUIT-BREAKER
+                  fallbackuri: forward:/productServiceFallBack
