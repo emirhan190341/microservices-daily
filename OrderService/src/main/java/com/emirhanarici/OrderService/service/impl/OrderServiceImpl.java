@@ -96,7 +96,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse getOrderDetails(long orderId) {
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<String>(headers);
