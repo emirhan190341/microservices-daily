@@ -9,5 +9,26 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - my-db:/var/lib/mysql
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - backend
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+
+
 volumes:
   my-db:
+
+networks:
+    backend:
+        driver: bridge

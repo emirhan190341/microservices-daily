@@ -9,31 +9,43 @@ spring:
     import: configserver:http://localhost:9296
   cloud:
     gateway:
-        routes:
-          - id: ORDER-SERVICE
-            uri: lb://ORDER-SERVICE
-            predicates:
-              - Path=/order/**
-            filters:
-              - name: CircuitBreaker
-                args:
-                  name: ORDER-SERVICE-CIRCUIT-BREAKER
-                  fallbackuri: forward:/orderServiceFallBack
-          - id: PAYMENT-SERVICE
-            uri: lb://PAYMENT-SERVICE
-            predicates:
-              - Path=/payment/**
-            filters:
-              - name: CircuitBreaker
-                args:
-                  name: PAYMENT-SERVICE-CIRCUIT-BREAKER
-                  fallbackuri: forward:/paymentServiceFallBack
-          - id: PRODUCT-SERVICE
-            uri: lb://PRODUCT-SERVICE
-            predicates:
-              - Path=/product/**
-            filters:
-              - name: CircuitBreaker
-                args:
-                  name: PRODUCT-SERVICE-CIRCUIT-BREAKER
-                  fallbackuri: forward:/productServiceFallBack
+      routes:
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE-CIRCUIT-BREAKER
+                fallbackuri: forward:/orderServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PAYMENT-SERVICE-CIRCUIT-BREAKER
+                fallbackuri: forward:/paymentServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE-CIRCUIT-BREAKER
+                fallbackuri: forward:/productServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # 1 request per second
+                redis-rate-limiter.burstCapacity: 1 # 1 request at a time
