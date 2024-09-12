@@ -49,3 +49,4 @@ spring:
               args:
                 redis-rate-limiter.replenishRate: 1 # 1 request per second
                 redis-rate-limiter.burstCapacity: 1 # 1 request at a time
+
